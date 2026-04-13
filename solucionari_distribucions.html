@@ -1,0 +1,2085 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solucionari — Distribucions de Probabilitat · 2n Batxillerat</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --card: #faf9f6;
+  --card-border: #e8e0d0;
+  --text: #1c1917;
+  --text-muted: #57534e;
+  --gold: #d4a017;
+  --gold-light: #fef3c7;
+  --gold-border: #fbbf24;
+  --b1: #2563eb; --b1-light: #eff6ff; --b1-border: #bfdbfe;
+  --b2: #059669; --b2-light: #ecfdf5; --b2-border: #a7f3d0;
+  --b3: #7c3aed; --b3-light: #f5f3ff; --b3-border: #ddd6fe;
+  --b4: #d97706; --b4-light: #fffbeb; --b4-border: #fde68a;
+  --b5: #dc2626; --b5-light: #fef2f2; --b5-border: #fecaca;
+  --step-bg: #f8f7f4;
+  --radius: 12px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.18);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, #0d1117 0%, #1a1f2e 40%, #1e2a3a 100%);
+  padding: 60px 20px 50px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,160,23,0.08) 0%, transparent 70%);
+}
+.hero-eyebrow {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.hero h1 {
+  font-family: 'Lora', serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  color: #f5f0e8;
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+.hero-sub {
+  font-size: 1rem;
+  color: #8b9bb4;
+  margin-bottom: 36px;
+}
+
+/* ── NAV PILLS ── */
+.nav-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 40px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #f5f0e8;
+  text-decoration: none;
+  border: 1.5px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(4px);
+  transition: all 0.2s;
+}
+.pill:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.3); }
+.pill.b1 { background: rgba(37,99,235,0.25); }
+.pill.b2 { background: rgba(5,150,105,0.25); }
+.pill.b3 { background: rgba(124,58,237,0.25); }
+.pill.b4 { background: rgba(217,119,6,0.25); }
+.pill.b5 { background: rgba(220,38,38,0.25); }
+
+/* ── MAIN CONTENT ── */
+.main { max-width: 900px; margin: 0 auto; padding: 40px 16px 80px; }
+
+/* ── BLOC HEADER ── */
+.bloc-header {
+  display: flex; align-items: center; gap: 14px;
+  margin: 48px 0 20px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid;
+}
+.bloc-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+.bloc-title {
+  font-family: 'Lora', serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+}
+.bloc-desc { font-size: 0.87rem; color: var(--text-muted); margin-top: 2px; }
+
+.bloc-b1 .bloc-header { border-color: var(--b1-border); }
+.bloc-b1 .bloc-icon { background: var(--b1); }
+.bloc-b1 .bloc-title { color: var(--b1); }
+.bloc-b2 .bloc-header { border-color: var(--b2-border); }
+.bloc-b2 .bloc-icon { background: var(--b2); }
+.bloc-b2 .bloc-title { color: var(--b2); }
+.bloc-b3 .bloc-header { border-color: var(--b3-border); }
+.bloc-b3 .bloc-icon { background: var(--b3); }
+.bloc-b3 .bloc-title { color: var(--b3); }
+.bloc-b4 .bloc-header { border-color: var(--b4-border); }
+.bloc-b4 .bloc-icon { background: var(--b4); }
+.bloc-b4 .bloc-title { color: var(--b4); }
+.bloc-b5 .bloc-header { border-color: var(--b5-border); }
+.bloc-b5 .bloc-icon { background: var(--b5); }
+.bloc-b5 .bloc-title { color: var(--b5); }
+
+/* ── PROBLEM CARD ── */
+.problem-card {
+  background: var(--card);
+  border: 1.5px solid var(--card-border);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.problem-top {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 20px 22px 16px;
+}
+
+.problem-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 44px; height: 44px;
+  border-radius: 8px;
+  font-size: 0.8rem; font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  letter-spacing: 0.03em;
+}
+.bloc-b1 .problem-badge { background: var(--b1); }
+.bloc-b2 .problem-badge { background: var(--b2); }
+.bloc-b3 .problem-badge { background: var(--b3); }
+.bloc-b4 .problem-badge { background: var(--b4); }
+.bloc-b5 .problem-badge { background: var(--b5); }
+
+.problem-content { flex: 1; }
+.problem-title {
+  font-family: 'Lora', serif;
+  font-size: 1.05rem; font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.problem-statement {
+  font-size: 0.93rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+.problem-statement p { margin-bottom: 8px; }
+.problem-statement p:last-child { margin-bottom: 0; }
+.problem-statement .sub-item {
+  display: flex; gap: 8px;
+  margin-bottom: 6px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: #f5f4f0;
+}
+.sub-letter {
+  font-weight: 700;
+  min-width: 18px;
+  color: var(--text-muted);
+}
+
+/* ── TOGGLE BUTTON ── */
+.toggle-btn {
+  display: flex; align-items: center; gap: 8px;
+  width: 100%; padding: 12px 22px;
+  background: none;
+  border: none; border-top: 1.5px solid var(--card-border);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.87rem; font-weight: 600;
+  color: var(--text-muted);
+  text-align: left;
+  transition: all 0.2s;
+}
+.toggle-btn:hover { background: #f5f4f0; color: var(--text); }
+.toggle-btn .arrow { transition: transform 0.3s; font-size: 0.75rem; }
+.toggle-btn.open { color: var(--gold); background: var(--gold-light); }
+.toggle-btn.open .arrow { transform: rotate(180deg); }
+
+/* ── SOLUTION ── */
+.solution {
+  display: none;
+  padding: 22px 22px 24px;
+  border-top: 1.5px solid var(--card-border);
+  background: linear-gradient(180deg, #fffef9 0%, #faf9f6 100%);
+  animation: fadeSlide 0.3s ease;
+}
+.solution.open { display: block; }
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── STEP ── */
+.step {
+  display: flex; gap: 14px;
+  margin-bottom: 18px;
+}
+.step:last-child { margin-bottom: 0; }
+.step-num {
+  display: flex; align-items: center; justify-content: center;
+  min-width: 30px; height: 30px; margin-top: 2px;
+  border-radius: 50%;
+  font-size: 0.75rem; font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+.bloc-b1 .step-num { background: var(--b1); }
+.bloc-b2 .step-num { background: var(--b2); }
+.bloc-b3 .step-num { background: var(--b3); }
+.bloc-b4 .step-num { background: var(--b4); }
+.bloc-b5 .step-num { background: var(--b5); }
+
+.step-body { flex: 1; }
+.step-title {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  margin-bottom: 5px;
+}
+.step-body p {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.step-body p:last-child { margin-bottom: 0; }
+
+.formula-box {
+  background: var(--gold-light);
+  border: 1.5px solid var(--gold-border);
+  border-radius: 8px;
+  padding: 10px 16px;
+  margin: 8px 0;
+  overflow-x: auto;
+  font-size: 0.92rem;
+}
+
+.result-box {
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
+  border-radius: 8px;
+  padding: 10px 16px;
+  margin: 8px 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #166534;
+}
+
+.note-box {
+  background: #fffbeb;
+  border-left: 3px solid var(--gold);
+  border-radius: 0 6px 6px 0;
+  padding: 8px 12px;
+  margin: 8px 0;
+  font-size: 0.83rem;
+  color: #92400e;
+  line-height: 1.5;
+}
+
+.sub-sol {
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  border: 1px solid #e5e2da;
+  background: var(--step-bg);
+}
+.sub-sol-title {
+  font-family: 'Lora', serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid #ddd;
+}
+.sub-sol:last-child { margin-bottom: 0; }
+
+.ident-table { width:100%; border-collapse: collapse; font-size: 0.87rem; margin-top:6px; }
+.ident-table th { background:#f0ede5; padding:7px 10px; text-align:left; font-weight:600; font-size:0.8rem; border-bottom:2px solid #ddd; }
+.ident-table td { padding:8px 10px; border-bottom:1px solid #eee; vertical-align:top; }
+.ident-table tr:last-child td { border-bottom: none; }
+.tag-si { color:#166534; font-weight:700; }
+.tag-no { color:#991b1b; font-weight:700; }
+
+/* ── FORMULA SHEET ── */
+.formula-sheet {
+  background: var(--surface);
+  border: 1.5px solid #30363d;
+  border-radius: var(--radius);
+  margin: 0 0 36px;
+  overflow: hidden;
+}
+.formula-sheet-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px;
+  background: #21262d;
+  cursor: pointer;
+  user-select: none;
+}
+.formula-sheet-header h2 {
+  font-family: 'Lora', serif;
+  font-size: 1rem; font-weight: 700; color: #f0e6d3;
+}
+.formula-sheet-body {
+  display: none;
+  padding: 20px;
+  color: #f0e6d3;
+}
+.formula-sheet-body.open { display: block; }
+.formula-sheet-body p { font-size: 0.88rem; line-height:1.7; margin-bottom:6px; }
+.fs-col-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 580px) { .fs-col-grid { grid-template-columns: 1fr; } }
+.fs-block { background: rgba(255,255,255,0.04); border-radius:8px; padding:12px 14px; }
+.fs-block h4 { font-family:'Lora',serif; font-size:0.88rem; color:var(--gold); margin-bottom:6px; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--surface);
+  border-top: 1px solid #30363d;
+  padding: 20px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .problem-top { flex-direction: column; gap: 8px; }
+  .problem-badge { width: 36px; height: 36px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════ HERO ════════════ -->
+<div class="hero">
+  <div class="hero-eyebrow">2n Batxillerat · Matemàtiques CCSS</div>
+  <h1>Solucionari<br>Distribucions de Probabilitat</h1>
+  <p class="hero-sub">2n Batxillerat · Matemàtiques CCSS</p>
+  <nav class="nav-pills">
+    <a href="#bloc1" class="pill b1">📊 Bloc 1 · Binomial</a>
+    <a href="#bloc2" class="pill b2">🔔 Bloc 2 · Normal</a>
+    <a href="#bloc3" class="pill b3">🔁 Bloc 3 · Aproximació</a>
+    <a href="#bloc4" class="pill b4">🔀 Bloc 4 · Mixt</a>
+    <a href="#bloc5" class="pill b5">🔍 Bloc 5 · Inversa</a>
+  </nav>
+</div>
+
+<!-- ════════════ MAIN ════════════ -->
+<div class="main">
+
+<!-- ── FULL FORMULA REFERENCE ── -->
+<div class="formula-sheet">
+  <div class="formula-sheet-header" onclick="toggleSheet(this)">
+    <h2>📐 Formulari de referència ràpida</h2>
+    <span style="color:#8b9bb4; font-size:0.8rem">▼ Desplegar</span>
+  </div>
+  <div class="formula-sheet-body">
+    <div class="fs-col-grid">
+      <div class="fs-block">
+        <h4>Distribució Binomial B(n, p)</h4>
+        <p>\[P(X=k)=\binom{n}{k}p^k q^{n-k}\]</p>
+        <p>\[\mu = np \qquad \sigma = \sqrt{npq}\]</p>
+      </div>
+      <div class="fs-block">
+        <h4>Tipificació Normal</h4>
+        <p>\[Z = \frac{X-\mu}{\sigma} \sim N(0,1)\]</p>
+        <p>\[x = \mu + z^* \cdot \sigma\]</p>
+      </div>
+      <div class="fs-block">
+        <h4>Simetries de la Normal</h4>
+        <p>\[P(Z < -a) = 1 - P(Z < a)\]</p>
+        <p>\[P(Z > a) = 1 - P(Z < a)\]</p>
+        <p>\[P(a < Z < b) = P(Z{<}b) - P(Z{<}a)\]</p>
+        <p>\[P(-a < Z < a) = 2P(Z{<}a) - 1\]</p>
+      </div>
+      <div class="fs-block">
+        <h4>Aproximació B→N</h4>
+        <p>Si \(np \ge 5\) i \(n(1-p) \ge 5\):</p>
+        <p>\[X \sim B(n,p) \approx Y \sim N(np,\,\sqrt{npq})\]</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════ BLOC 1: BINOMIAL ════════════ -->
+<section id="bloc1" class="bloc-b1">
+  <div class="bloc-header">
+    <div class="bloc-icon">B</div>
+    <div>
+      <div class="bloc-title">Bloc 1 — Distribució Binomial</div>
+      <div class="bloc-desc">Identificació del model · Càlcul de probabilitats · Esperança i desviació</div>
+    </div>
+  </div>
+
+  <!-- B1 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">B1</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema B1 — Identifica la distribució</div>
+        <div class="problem-statement">
+          <p>Indica si cada situació segueix una distribució binomial. En cas afirmatiu, escriu els paràmetres <em>n</em> i <em>p</em>. En cas negatiu, explica quina condició no es compleix.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>Es llança una moneda equilibrada 12 vegades i es compta el nombre de cares.</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>D'una caixa amb 5 boles blanques i 3 negres se'n treuen 4 sense reposició. Es compta quantes són blanques.</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>En una escola, el 25% dels alumnes porten ulleres. Se'n trien 8 a l'atzar i s'anota quants en porten.</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>Es llança un dau de 6 cares fins que surt un 6 per primera vegada. Es compta el nombre de llançaments.</span></div>
+          <div class="sub-item"><span class="sub-letter">e)</span><span>Una màquina produeix peces de les quals el 5% son defectuoses. Es revisen 20 peces i es compta el nombre de defectuoses.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;">Recordem les 4 condicions per aplicar el model binomial: <strong>(1)</strong> nombre fix d'intents \(n\), <strong>(2)</strong> independència, <strong>(3)</strong> probabilitat constant \(p\), <strong>(4)</strong> resultat dicotòmic (èxit/fracàs).</p>
+      <table class="ident-table">
+        <thead><tr><th>Apt.</th><th>Binomial?</th><th>Justificació i paràmetres</th></tr></thead>
+        <tbody>
+          <tr><td><strong>a)</strong></td><td class="tag-si">SÍ</td><td>Moneda equilibrada: \(n=12\) llançaments fixos, independents, \(p=0{,}5\) constant, dicotòmic (cara/creu). \(\Rightarrow X \sim B(12;\,0{,}5)\)</td></tr>
+          <tr><td><strong>b)</strong></td><td class="tag-no">NO</td><td>L'extracció és <em>sense reposició</em>, de manera que la probabilitat canvia a cada intent: \(p_1 = \tfrac{5}{8}\), \(p_2 = \tfrac{4}{7}\) o \(\tfrac{5}{7}\), etc. La condició (3) de probabilitat constant <strong>no es compleix</strong>. El model adequat és la distribució hipergeomètrica.</td></tr>
+          <tr><td><strong>c)</strong></td><td class="tag-si">SÍ</td><td>Suposem escola gran (independència aproximada): dos resultats (porta/no porta ulleres), \(p=0{,}25\) constant, \(n=8\). \(\Rightarrow X \sim B(8;\,0{,}25)\)</td></tr>
+          <tr><td><strong>d)</strong></td><td class="tag-no">NO</td><td>No hi ha un nombre <em>fix</em> d'intents: es continua tirant fins que surt el primer 6. La condició (1) <strong>no es compleix</strong>. El model adequat és la distribució geomètrica.</td></tr>
+          <tr><td><strong>e)</strong></td><td class="tag-si">SÍ</td><td>Peça defectuosa o no (dicotòmic), \(p=0{,}05\) constant, \(n=20\) revisions fixes i independents. \(\Rightarrow X \sim B(20;\,0{,}05)\)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- B2 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">B2</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema B2 — Identifica i justifica</div>
+        <div class="problem-statement">
+          <p>Per a cada situació: <em>(1)</em> identifica si és binomial, <em>(2)</em> si NO, explica quina condició falla, <em>(3)</em> si SÍ, escriu B(n, p).</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>Es fan 10 preguntes V/F a un alumne que respon a l'atzar.</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>En un grup de 30 persones, el 40% practica esport. Es trien 6 persones <em>amb reposició</em>.</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>Se seleccionen 5 cartes d'una baralla de 52 <em>sense reposició</em>. Es compta quantes de cors surten.</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>Un jugador repeteix un nivell fins que el guanya (probabilitat 30%). Es compta el nombre d'intents.</span></div>
+          <div class="sub-item"><span class="sub-letter">e)</span><span>El 12% dels correus d'una empresa és brossa. Es revisen 15 correus a l'atzar.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <table class="ident-table">
+        <thead><tr><th>Apt.</th><th>Binomial?</th><th>Justificació i paràmetres</th></tr></thead>
+        <tbody>
+          <tr><td><strong>a)</strong></td><td class="tag-si">SÍ</td><td>10 preguntes fixes, independents, \(p=0{,}5\) per a cada V/F aleatori, dicotòmic. \(\Rightarrow X \sim B(10;\,0{,}5)\)</td></tr>
+          <tr><td><strong>b)</strong></td><td class="tag-si">SÍ</td><td>Amb reposició, la probabilitat es manté constant \(p=0{,}4\), \(n=6\), independència garantida. \(\Rightarrow X \sim B(6;\,0{,}4)\)</td></tr>
+          <tr><td><strong>c)</strong></td><td class="tag-no">NO</td><td>Extracció <em>sense reposició</em>: la probabilitat de treure una carta de cors canvia a cada carta extreta. La condició (3) <strong>no es compleix</strong>.</td></tr>
+          <tr><td><strong>d)</strong></td><td class="tag-no">NO</td><td>No hi ha un nombre fix d'intents \(n\): es juga fins a guanyar. Condició (1) <strong>no es compleix</strong>. Model geomètric.</td></tr>
+          <tr><td><strong>e)</strong></td><td class="tag-si">SÍ</td><td>Cada correu és brossa o no; \(p=0{,}12\), \(n=15\), independent. \(\Rightarrow X \sim B(15;\,0{,}12)\)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- B3 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">B3</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema B3 — Panells solars defectuosos</div>
+        <div class="problem-statement">
+          <p>Una fàbrica produeix un lot del qual el <strong>6% d'unitats</strong> surten defectuoses. Se selecciona una mostra de <strong>15 panells</strong>.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>Defineix la variable \(X\) i indica la distribució. Justifica les 4 condicions.</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>Calcula \(P(X = 2)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>Calcula \(P(X \le 1)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>Calcula la mitjana i la desviació típica. Interpreta la mitjana.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) Variable i distribució</div>
+        <div class="step"><span class="step-num">1</span><div class="step-body">
+          <div class="step-title">Defineix la variable aleatòria</div>
+          <p>Sigui \(X\) = nombre de panells defectuosos en una mostra de 15.</p>
+        </div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-body">
+          <div class="step-title">Comprova les 4 condicions binomials</div>
+          <p><strong>(1)</strong> Nombre fix: \(n = 15\) panells. ✓<br>
+          <strong>(2)</strong> Independència: el defecte d'un panell no afecta els altres. ✓<br>
+          <strong>(3)</strong> Probabilitat constant: \(p = 0{,}06\) per a cada panell. ✓<br>
+          <strong>(4)</strong> Dicotòmic: defectuós o no defectuós. ✓</p>
+        </div></div>
+        <div class="formula-box">\[X \sim B(15;\; 0{,}06)\]</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(X = 2)\)</div>
+        <div class="step"><span class="step-num">1</span><div class="step-body">
+          <div class="step-title">Escriu la fórmula binomial</div>
+          <div class="formula-box">\[P(X=k)=\binom{n}{k}p^k\,q^{n-k}, \quad q=1-p=0{,}94\]</div>
+        </div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-body">
+          <div class="step-title">Substitueix \(k=2\), \(n=15\), \(p=0{,}06\)</div>
+          <div class="formula-box">\[P(X=2)=\binom{15}{2}(0{,}06)^2(0{,}94)^{13}=105\cdot 0{,}0036\cdot 0{,}4474\]</div>
+        </div></div>
+        <div class="result-box">\(P(X=2) \approx 0{,}1691\)</div>
+        <p style="font-size:0.83rem;color:var(--text-muted)">Interpretació: hi ha aproximadament un 16,9% de probabilitat que exactament 2 dels 15 panells siguin defectuosos.</p>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(P(X \le 1)\)</div>
+        <div class="step"><span class="step-num">1</span><div class="step-body">
+          <div class="step-title">Descompon com a suma</div>
+          <div class="formula-box">\[P(X \le 1) = P(X=0) + P(X=1)\]</div>
+        </div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-body">
+          <div class="step-title">Calcula cada terme</div>
+          <div class="formula-box">\[P(X=0)=\binom{15}{0}(0{,}06)^0(0{,}94)^{15}=(0{,}94)^{15}\approx 0{,}3953\]</div>
+          <div class="formula-box">\[P(X=1)=\binom{15}{1}(0{,}06)^1(0{,}94)^{14}=15\cdot 0{,}06\cdot 0{,}4205\approx 0{,}3785\]</div>
+        </div></div>
+        <div class="result-box">\(P(X \le 1) = 0{,}3953 + 0{,}3785 \approx 0{,}7738\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) Mitjana i desviació típica</div>
+        <div class="formula-box">\[\mu = n \cdot p = 15 \cdot 0{,}06 = 0{,}9 \text{ panells}\]</div>
+        <div class="formula-box">\[\sigma = \sqrt{n \cdot p \cdot q} = \sqrt{15 \cdot 0{,}06 \cdot 0{,}94} = \sqrt{0{,}846} \approx 0{,}9198\]</div>
+        <div class="note-box">Interpretació: de mitjana, en una mostra de 15 panells, s'esperen aproximadament <strong>0,9 panells defectuosos</strong> (menys d'1). La desviació típica de 0,92 indica una dispersió baixa al voltant d'aquest valor.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B4 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">B4</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema B4 — Productes ecològics</div>
+        <div class="problem-statement">
+          <p>El <strong>30%</strong> dels consumidors compra productes ecològics. S'entrevisten <strong>10 clients</strong>.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>Indica la distribució i comprova condicions.</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>Calcula \(P(X = 3)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>Calcula \(P(X \ge 2)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>Quina és l'esperança? Interpreta.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) Distribució</div>
+        <p style="font-size:0.87rem">Sigui \(X\) = nombre de clients que compren productes ecològics entre 10. Les 4 condicions es compleixen: \(n=10\) clients fixos, independents, \(p=0{,}3\) constant, dicotòmic.</p>
+        <div class="formula-box">\[X \sim B(10;\; 0{,}30)\]</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(X = 3)\)</div>
+        <div class="formula-box">\[P(X=3)=\binom{10}{3}(0{,}3)^3(0{,}7)^7=120 \cdot 0{,}027 \cdot 0{,}0824\]</div>
+        <div class="result-box">\(P(X=3) \approx 0{,}2668\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(P(X \ge 2)\)</div>
+        <div class="step"><span class="step-num">1</span><div class="step-body">
+          <div class="step-title">Usa el complementari</div>
+          <div class="formula-box">\[P(X \ge 2) = 1 - P(X \le 1) = 1 - [P(X=0)+P(X=1)]\]</div>
+        </div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-body">
+          <div class="step-title">Calcula \(P(X=0)\) i \(P(X=1)\)</div>
+          <div class="formula-box">\[P(X=0)=(0{,}7)^{10}\approx 0{,}0282 \qquad P(X=1)=10\cdot 0{,}3\cdot(0{,}7)^9\approx 0{,}1211\]</div>
+        </div></div>
+        <div class="result-box">\(P(X \ge 2) = 1 - (0{,}0282+0{,}1211) \approx 0{,}8507\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) Esperança</div>
+        <div class="formula-box">\[\mu = n \cdot p = 10 \cdot 0{,}3 = 3 \text{ clients}\]</div>
+        <div class="note-box">En un grup de 10 clients, n'esperem <strong>3 que comprin productes ecològics</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B5 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">B5</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema B5 — Qüestionari tipus test</div>
+        <div class="problem-statement">
+          <p>Un qüestionari de <strong>12 preguntes</strong> amb <strong>4 opcions</strong> (1 correcta). Un alumne respon a l'atzar.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>Defineix la variable i la distribució.</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>\(P(X = 3)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>\(P(X \ge 5)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>Si cal encertar \(\ge 6\) per superar, calcula la probabilitat de superar-lo a l'atzar.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) Variable i distribució</div>
+        <p style="font-size:0.87rem">Sigui \(X\) = nombre de preguntes encertades. Cada pregunta té probabilitat d'encert \(p = \tfrac{1}{4} = 0{,}25\) si es respon a l'atzar. \(n=12\) preguntes fixes, independents.</p>
+        <div class="formula-box">\[X \sim B(12;\; 0{,}25)\]</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(X = 3)\)</div>
+        <div class="formula-box">\[P(X=3)=\binom{12}{3}(0{,}25)^3(0{,}75)^9=220\cdot 0{,}015625\cdot 0{,}0751\]</div>
+        <div class="result-box">\(P(X=3) \approx 0{,}2581\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(P(X \ge 5)\)</div>
+        <div class="formula-box">\[P(X \ge 5) = 1 - P(X \le 4)\]</div>
+        <p style="font-size:0.85rem;color:var(--text-muted)">Cal sumar \(P(X=0)+\cdots+P(X=4)\) i restar-ho a 1:</p>
+        <div class="result-box">\(P(X \ge 5) \approx 0{,}1576\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) \(P(X \ge 6)\)</div>
+        <div class="formula-box">\[P(X \ge 6) = 1 - P(X \le 5)\]</div>
+        <div class="result-box">\(P(X \ge 6) \approx 0{,}0544\)</div>
+        <div class="note-box">Comentari: superar el qüestionari responent a l'atzar té una probabilitat d'aproximadament el <strong>5,4%</strong>, cosa que és molt improbable. El test discrimina bé l'aprenentatge.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B6 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">B6</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema B6 — Germinació de llavors</div>
+        <div class="problem-statement">
+          <p>El <strong>88%</strong> de les llavors de tomàquet germinen. Es planten <strong>10 llavors</strong> en un contenidor.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>Indica la distribució i justifica el model binomial.</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>\(P(X = 9)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>\(P(X \ge 8)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>3 contenidors: probabilitat que en tots tres germinin almenys 8 llavors.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) Distribució</div>
+        <p style="font-size:0.87rem">Sigui \(X\) = nombre de llavors que germinen entre 10. Model binomial: \(n=10\), \(p=0{,}88\), cada llavor germina o no de manera independent.</p>
+        <div class="formula-box">\[X \sim B(10;\; 0{,}88), \quad q = 0{,}12\]</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(X = 9)\)</div>
+        <div class="formula-box">\[P(X=9)=\binom{10}{9}(0{,}88)^9(0{,}12)^1=10\cdot 0{,}3165\cdot 0{,}12\]</div>
+        <div class="result-box">\(P(X=9) \approx 0{,}3798\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(P(X \ge 8)\)</div>
+        <div class="formula-box">\[P(X \ge 8) = P(X=8)+P(X=9)+P(X=10)\]</div>
+        <div class="formula-box">\[P(X=8)=\binom{10}{8}(0{,}88)^8(0{,}12)^2=45\cdot 0{,}3596\cdot 0{,}0144\approx 0{,}2330\]</div>
+        <div class="formula-box">\[P(X=10)=(0{,}88)^{10}\approx 0{,}2785\]</div>
+        <div class="result-box">\(P(X \ge 8) = 0{,}2330+0{,}3798+0{,}2785 \approx 0{,}8913\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) 3 contenidors independents</div>
+        <div class="step"><span class="step-num">1</span><div class="step-body">
+          <div class="step-title">Propietat aplicada: independència</div>
+          <p>Com que els 3 contenidors són independents, la probabilitat que <em>tots tres</em> compleixin la condició és el producte.</p>
+        </div></div>
+        <div class="formula-box">\[P(\text{tots 3}) = [P(X \ge 8)]^3 = (0{,}8913)^3\]</div>
+        <div class="result-box">\(P(\text{tots 3}) \approx 0{,}7081\)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B7 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">B7</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema B7 — Connexions fallides</div>
+        <div class="problem-statement">
+          <p>El <strong>12%</strong> dels intents de connexió remota fallen. Es revisen <strong>20 intents</strong>.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>Defineix la variable i la distribució.</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>\(P(X = 0)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>\(P(2 \le X \le 4)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>Calcula la variància. Interpreta.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) Distribució</div>
+        <div class="formula-box">\[X = \text{nombre de connexions fallides} \sim B(20;\; 0{,}12)\]</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(X = 0)\)</div>
+        <div class="formula-box">\[P(X=0)=(0{,}88)^{20}\]</div>
+        <div class="result-box">\(P(X=0) \approx 0{,}0776\)</div>
+        <p style="font-size:0.83rem;color:var(--text-muted)">Sols hi ha un 7,8% de probabilitat que cap dels 20 intents falli.</p>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(P(2 \le X \le 4)\)</div>
+        <div class="formula-box">\[P(2 \le X \le 4)=P(X=2)+P(X=3)+P(X=4)\]</div>
+        <div class="formula-box">\[P(X=k)=\binom{20}{k}(0{,}12)^k(0{,}88)^{20-k}\]</div>
+        <div class="result-box">\(P(2 \le X \le 4) \approx 0{,}6282\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) Variància</div>
+        <div class="formula-box">\[\text{Var}(X) = n \cdot p \cdot q = 20 \cdot 0{,}12 \cdot 0{,}88 = 2{,}112\]</div>
+        <div class="note-box">La variància mesura la dispersió del nombre de fallades al voltant de la mitjana \(\mu = 20 \cdot 0{,}12 = 2{,}4\). Una variància de 2,112 indica que és habitual tenir entre 0 i 5 fallades.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B8 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">B8</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema B8 — Absències a la clínica</div>
+        <div class="problem-statement">
+          <p>El <strong>18%</strong> dels pacients no es presenten. Hi ha <strong>9 visites</strong> programades.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>Model, variable i condicions.</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>\(P(X = 0)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>\(P(X > 2)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>La metgessa necessita \(\ge 6\) pacients per cobrir despeses. Probabilitat de cobrir-les.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) Distribució</div>
+        <p style="font-size:0.87rem">Sigui \(X\) = nombre de pacients que <em>no es presenten</em>. Les 4 condicions binomials es compleixen.</p>
+        <div class="formula-box">\[X \sim B(9;\; 0{,}18)\]</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(X = 0)\)</div>
+        <div class="formula-box">\[P(X=0)=(0{,}82)^9\]</div>
+        <div class="result-box">\(P(X=0) \approx 0{,}1676\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(P(X > 2)\)</div>
+        <div class="formula-box">\[P(X>2)=1-P(X \le 2)=1-[P(X=0)+P(X=1)+P(X=2)]\]</div>
+        <div class="formula-box">\[P(X=1)=9\cdot0{,}18\cdot(0{,}82)^8\approx 0{,}3311\]</div>
+        <div class="formula-box">\[P(X=2)=\binom{9}{2}(0{,}18)^2(0{,}82)^7\approx 0{,}2908\]</div>
+        <div class="result-box">\(P(X>2)=1-(0{,}1676+0{,}3311+0{,}2908)\approx 0{,}2105\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) Cobrir despeses (\(\ge 6\) pacients vénen)</div>
+        <div class="step"><span class="step-num">1</span><div class="step-body">
+          <div class="step-title">Tradueix la condició</div>
+          <p>Si vénen \(\ge 6\) pacients, llavors com a molt \(\le 3\) falten: cal \(P(X \le 3)\).</p>
+        </div></div>
+        <div class="formula-box">\[P(X \le 3)=P(X \le 2)+P(X=3)\]</div>
+        <div class="formula-box">\[P(X=3)=\binom{9}{3}(0{,}18)^3(0{,}82)^6\approx 0{,}1491\]</div>
+        <div class="result-box">\(P(X \le 3) \approx 0{,}7895 + 0{,}1491 \approx 0{,}9385\)</div>
+        <div class="note-box">Hi ha un <strong>93,85%</strong> de probabilitat que la metgessa pugui cobrir les despeses del dia.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B9 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">B9</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema B9 — Transport públic</div>
+        <div class="problem-statement">
+          <p>El <strong>65%</strong> dels habitants usa el transport públic diàriament. Mostra de <strong>8 habitants</strong>.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>Defineix la variable i la distribució.</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>\(P(X = 5)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>\(P(X > 4)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>Mitjana i desviació típica. Interpreta.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) Distribució</div>
+        <div class="formula-box">\[X \sim B(8;\; 0{,}65)\]</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(X = 5)\)</div>
+        <div class="formula-box">\[P(X=5)=\binom{8}{5}(0{,}65)^5(0{,}35)^3=56\cdot 0{,}1160\cdot 0{,}0429\]</div>
+        <div class="result-box">\(P(X=5) \approx 0{,}2786\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(P(X > 4) = P(X \ge 5)\)</div>
+        <div class="formula-box">\[P(X \ge 5)=P(X=5)+P(X=6)+P(X=7)+P(X=8)\]</div>
+        <div class="result-box">\(P(X > 4) \approx 0{,}7064\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) Paràmetres</div>
+        <div class="formula-box">\[\mu = 8 \cdot 0{,}65 = 5{,}2 \text{ habitants}\]</div>
+        <div class="formula-box">\[\sigma = \sqrt{8 \cdot 0{,}65 \cdot 0{,}35} = \sqrt{1{,}82} \approx 1{,}3491\]</div>
+        <div class="note-box">De mitjana esperem <strong>5,2 usuaris</strong> de transport públic en una mostra de 8. Tenint en compte \(\sigma \approx 1{,}35\), els valors raonables se situen entre \(5{,}2 \pm 2 \cdot 1{,}35\), és a dir, entre <strong>3 i 8</strong> usuaris.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════ BLOC 2: NORMAL ════════════ -->
+<section id="bloc2" class="bloc-b2">
+  <div class="bloc-header">
+    <div class="bloc-icon">N</div>
+    <div>
+      <div class="bloc-title">Bloc 2 — Distribució Normal</div>
+      <div class="bloc-desc">Tipificació · Simetries de la taula Z · Càlcul de percentils</div>
+    </div>
+  </div>
+
+  <!-- N1 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">N1</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema N1 — Probabilitats amb Z ~ N(0,1)</div>
+        <div class="problem-statement">
+          <p>Calcula les probabilitats sabent que \(Z \sim N(0,1)\).<br>Valors de taula: \(P(Z{<}1{,}04)=0{,}851\), \(P(Z{<}1{,}75)=0{,}960\), \(P(Z{<}2{,}05)=0{,}980\).</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>\(P(Z < 1{,}75)\)</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>\(P(Z < -1{,}04)\)</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>\(P(Z > 1{,}04)\)</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>\(P(Z > -1{,}75)\)</span></div>
+          <div class="sub-item"><span class="sub-letter">e)</span><span>\(P(Z = 2{,}05)\)</span></div>
+          <div class="sub-item"><span class="sub-letter">f)</span><span>\(P(1{,}04 < Z < 1{,}75)\)</span></div>
+          <div class="sub-item"><span class="sub-letter">g)</span><span>\(P(-1{,}75 < Z < -1{,}04)\)</span></div>
+          <div class="sub-item"><span class="sub-letter">h)</span><span>\(P(-1{,}04 < Z < 1{,}04)\)</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) \(P(Z < 1{,}75)\)</div>
+        <p style="font-size:0.87rem">Valor directe de la taula:</p>
+        <div class="result-box">\(P(Z < 1{,}75) = 0{,}960\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(Z < -1{,}04)\)</div>
+        <p style="font-size:0.87rem">Simetria: \(P(Z{<}-a)=1-P(Z{<}a)\)</p>
+        <div class="formula-box">\[P(Z < -1{,}04)=1-P(Z < 1{,}04)=1-0{,}851\]</div>
+        <div class="result-box">\(= 0{,}149\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(P(Z > 1{,}04)\)</div>
+        <div class="formula-box">\[P(Z > 1{,}04)=1-P(Z < 1{,}04)=1-0{,}851\]</div>
+        <div class="result-box">\(= 0{,}149\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) \(P(Z > -1{,}75)\)</div>
+        <p style="font-size:0.87rem">Simetria: \(P(Z{>}-a)=P(Z{<}a)\)</p>
+        <div class="formula-box">\[P(Z > -1{,}75)=P(Z < 1{,}75)\]</div>
+        <div class="result-box">\(= 0{,}960\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">e) \(P(Z = 2{,}05)\)</div>
+        <p style="font-size:0.87rem">La distribució normal és <strong>contínua</strong>: la probabilitat en un punt exacte és sempre zero.</p>
+        <div class="result-box">\(P(Z = 2{,}05) = 0\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">f) \(P(1{,}04 < Z < 1{,}75)\)</div>
+        <div class="formula-box">\[P(1{,}04 < Z < 1{,}75)=P(Z{<}1{,}75)-P(Z{<}1{,}04)=0{,}960-0{,}851\]</div>
+        <div class="result-box">\(= 0{,}109\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">g) \(P(-1{,}75 < Z < -1{,}04)\)</div>
+        <p style="font-size:0.87rem">Per simetria: \(P(-b{<}Z{<}-a)=P(a{<}Z{<}b)\)</p>
+        <div class="formula-box">\[P(-1{,}75 < Z < -1{,}04)=P(1{,}04 < Z < 1{,}75)=0{,}109\]</div>
+        <div class="result-box">\(= 0{,}109\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">h) \(P(-1{,}04 < Z < 1{,}04)\)</div>
+        <p style="font-size:0.87rem">Interval simètric centrat en 0: \(P(-a{<}Z{<}a)=2P(Z{<}a)-1\)</p>
+        <div class="formula-box">\[P(-1{,}04 < Z < 1{,}04)=2 \cdot 0{,}851 - 1\]</div>
+        <div class="result-box">\(= 0{,}702\)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- N2 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">N2</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema N2 — Tipus de càlcul i fórmula</div>
+        <div class="problem-statement">
+          <p>Indica el tipus de càlcul i calcula. Valors: \(P(Z{<}0{,}67)=0{,}749\), \(P(Z{<}1{,}28)=0{,}900\), \(P(Z{<}1{,}96)=0{,}975\).</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>Probabilitat que \(Z\) sigui inferior a \(-0{,}67\).</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>Probabilitat que \(Z\) superi \(1{,}28\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>Probabilitat que \(Z\) estigui entre \(-1{,}96\) i \(1{,}96\).</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>Probabilitat que \(Z\) estigui entre \(-1{,}28\) i \(-0{,}67\).</span></div>
+          <div class="sub-item"><span class="sub-letter">e)</span><span>Probabilitat que \(Z\) sigui exactament 0.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) \(P(Z < -0{,}67)\)</div>
+        <p style="font-size:0.87rem"><strong>Tipus:</strong> simetria \(P(Z{<}-a)=1-P(Z{<}a)\)</p>
+        <div class="formula-box">\[P(Z < -0{,}67)=1-P(Z < 0{,}67)=1-0{,}749\]</div>
+        <div class="result-box">\(= 0{,}251\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(Z > 1{,}28)\)</div>
+        <p style="font-size:0.87rem"><strong>Tipus:</strong> complementari \(P(Z{>}a)=1-P(Z{<}a)\)</p>
+        <div class="formula-box">\[P(Z > 1{,}28)=1-P(Z < 1{,}28)=1-0{,}900\]</div>
+        <div class="result-box">\(= 0{,}100\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(P(-1{,}96 < Z < 1{,}96)\)</div>
+        <p style="font-size:0.87rem"><strong>Tipus:</strong> interval simètric \(P(-a{<}Z{<}a)=2P(Z{<}a)-1\)</p>
+        <div class="formula-box">\[P(-1{,}96 < Z < 1{,}96)=2\cdot 0{,}975 - 1\]</div>
+        <div class="result-box">\(= 0{,}950\)</div>
+        <div class="note-box">Regla pràctica: el 95% de les observacions d'una normal es troben dins de \(\pm 1{,}96\) desviacions típiques de la mitjana.</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) \(P(-1{,}28 < Z < -0{,}67)\)</div>
+        <p style="font-size:0.87rem"><strong>Tipus:</strong> simetria de l'interval negatiu: \(P(-b{<}Z{<}-a)=P(a{<}Z{<}b)=P(Z{<}b)-P(Z{<}a)\)</p>
+        <div class="formula-box">\[P(-1{,}28 < Z < -0{,}67)=P(0{,}67 < Z < 1{,}28)=0{,}900-0{,}749\]</div>
+        <div class="result-box">\(= 0{,}151\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">e) \(P(Z = 0)\)</div>
+        <p style="font-size:0.87rem"><strong>Tipus:</strong> variable contínua → probabilitat puntual sempre zero.</p>
+        <div class="result-box">\(P(Z = 0) = 0\)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- N3 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">N3</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema N3 — Alçada d'estudiants</div>
+        <div class="problem-statement">
+          <p>L'alçada dels estudiants segueix \(N(172;\, 8)\) cm.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>\(P(164 < X < 180)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>\(P(X > 185)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>Percentatge que mesura menys de 160 cm.</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>Alçada del percentil 90 ('alçada destacada').</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) \(P(164 < X < 180)\)</div>
+        <div class="step"><span class="step-num">1</span><div class="step-body">
+          <div class="step-title">Tipifica els extrems</div>
+          <div class="formula-box">\[Z_1 = \frac{164-172}{8}=-1 \qquad Z_2 = \frac{180-172}{8}=1\]</div>
+        </div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-body">
+          <div class="step-title">Aplica l'interval simètric</div>
+          <div class="formula-box">\[P(-1 < Z < 1)=2\cdot P(Z<1)-1=2\cdot 0{,}8413-1\]</div>
+        </div></div>
+        <div class="result-box">\(P(164 < X < 180) \approx 0{,}6827\)</div>
+        <p style="font-size:0.83rem;color:var(--text-muted)">El 68,27% dels estudiants fa entre 164 i 180 cm (regla \(\mu \pm \sigma\)).</p>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(X > 185)\)</div>
+        <div class="formula-box">\[Z=\frac{185-172}{8}=\frac{13}{8}=1{,}625\]</div>
+        <div class="formula-box">\[P(X>185)=P(Z>1{,}625)=1-P(Z<1{,}625)\approx 1-0{,}9479\]</div>
+        <div class="result-box">\(P(X > 185) \approx 0{,}0521\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(P(X < 160)\)</div>
+        <div class="formula-box">\[Z=\frac{160-172}{8}=\frac{-12}{8}=-1{,}5\]</div>
+        <div class="formula-box">\[P(X<160)=P(Z<-1{,}5)=1-P(Z<1{,}5)\approx 1-0{,}9332\]</div>
+        <div class="result-box">\(P(X < 160) \approx 0{,}0668 \; \Rightarrow \; \mathbf{6{,}68\%}\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) Percentil 90 (alçada destacada)</div>
+        <div class="step"><span class="step-num">1</span><div class="step-body">
+          <div class="step-title">Busca \(z^*\) tal que \(P(Z < z^*) = 0{,}90\)</div>
+          <p>De la taula: \(z^* \approx 1{,}2816\)</p>
+        </div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-body">
+          <div class="step-title">Desconverteix a cm</div>
+          <div class="formula-box">\[x = \mu + z^* \cdot \sigma = 172 + 1{,}2816 \cdot 8 = 172 + 10{,}25\]</div>
+        </div></div>
+        <div class="result-box">\(x \approx 182{,}25 \text{ cm}\)</div>
+        <div class="note-box">A partir d'uns <strong>182,25 cm</strong> es considera alçada destacada (percentil 90).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- N4 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">N4</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema N4 — Temps de lliurament</div>
+        <div class="problem-statement">
+          <p>El temps de lliurament segueix \(N(4;\, 0{,}9)\) dies.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>\(P(X < 3)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>\(P(3 < X < 5{,}5)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>Percentatge de lliuraments amb devolució (arriben en \(> 6\) dies).</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>Termini màxim per garantir el 99% dels lliuraments.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) \(P(X < 3)\)</div>
+        <div class="formula-box">\[Z=\frac{3-4}{0{,}9}=-1{,}111\]</div>
+        <div class="formula-box">\[P(X<3)=P(Z<-1{,}111)=1-P(Z<1{,}111)\approx 1-0{,}8667\]</div>
+        <div class="result-box">\(P(X<3) \approx 0{,}1333\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(3 < X < 5{,}5)\)</div>
+        <div class="formula-box">\[Z_1=\frac{3-4}{0{,}9}=-1{,}111 \qquad Z_2=\frac{5{,}5-4}{0{,}9}=1{,}667\]</div>
+        <div class="formula-box">\[P=P(Z<1{,}667)-P(Z<-1{,}111)\approx 0{,}9525-0{,}1333\]</div>
+        <div class="result-box">\(P(3 < X < 5{,}5) \approx 0{,}8189 \approx 81{,}9\%\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(P(X > 6)\)</div>
+        <div class="formula-box">\[Z=\frac{6-4}{0{,}9}=2{,}222\]</div>
+        <div class="formula-box">\[P(X>6)=1-P(Z<2{,}222)\approx 1-0{,}9869\]</div>
+        <div class="result-box">\(P(X>6) \approx 0{,}0131 \Rightarrow \mathbf{1{,}31\%}\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) Termini per al 99% (\(z^*=2{,}3263\))</div>
+        <div class="formula-box">\[x = 4 + 2{,}3263 \cdot 0{,}9 = 4 + 2{,}094\]</div>
+        <div class="result-box">\(x \approx 6{,}09 \text{ dies}\)</div>
+        <div class="note-box">L'empresa hauria d'oferir un termini de <strong>6,09 dies</strong> per garantir el 99% dels lliuraments.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- N5 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">N5</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema N5 — Pots de salsa de tomàquet</div>
+        <div class="problem-statement">
+          <p>El pes dels pots segueix \(N(400;\, 10)\) grams.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>\(P(385 < X < 415)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>Probabilitat de pot 'fora de tolerància' (\({<}380\) o \({>}420\) g).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>En un lot de 500, quants estan fora de tolerància?</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>Troba \(d\) tal que el 95% dels pots pesen \(400 \pm d\) grams.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) \(P(385 < X < 415)\)</div>
+        <div class="formula-box">\[Z_1=\frac{385-400}{10}=-1{,}5 \qquad Z_2=\frac{415-400}{10}=1{,}5\]</div>
+        <div class="formula-box">\[P(-1{,}5{<}Z{<}1{,}5)=2\cdot P(Z{<}1{,}5)-1=2\cdot 0{,}9332-1\]</div>
+        <div class="result-box">\(P(385 < X < 415) \approx 0{,}8664\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) Fora de tolerància</div>
+        <div class="formula-box">\[Z_{380}=\frac{380-400}{10}=-2 \qquad Z_{420}=\frac{420-400}{10}=2\]</div>
+        <div class="formula-box">\[P(\text{fora})=P(Z<-2)+P(Z>2)=2\cdot[1-P(Z<2)]=2\cdot 0{,}0228\]</div>
+        <div class="result-box">\(P(\text{fora de tolerància}) \approx 0{,}0455\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) Pots fora en un lot de 500</div>
+        <div class="formula-box">\[500 \cdot 0{,}0455 = 22{,}75 \approx \mathbf{23 \text{ pots}}\]</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) Interval central del 95%</div>
+        <div class="step"><span class="step-num">1</span><div class="step-body">
+          <div class="step-title">Plantejament: interval simètric al voltant de la mitjana</div>
+          <p>Volem trobar <em>d</em> tal que el 95% dels pots pesen entre \(400 - d\) i \(400 + d\). En tipificar, això equival a buscar \(z^*\) tal que:</p>
+          \[P(-z^* {<} Z {<} z^*) = 0{,}95\]
+        </div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-body">
+          <div class="step-title">Per simetria, queda un 2,5% a cada cua</div>
+          <p>Com que la distribució normal és simètrica i volem retenir el 95% central, el 5% restant es reparteix a parts iguals: <strong>2,5% per la cua esquerra</strong> i <strong>2,5% per la cua dreta</strong>.</p>
+          \[P(Z {<} -z^*) = 0{,}025 \qquad P(Z {>} z^*) = 0{,}025\]
+          <p>Per tant, la probabilitat acumulada fins a \(z^*\) és:</p>
+          \[P(Z {<} z^*) = 1 - 0{,}025 = 0{,}975\]
+        </div></div>
+        <div class="step"><span class="step-num">3</span><div class="step-body">
+          <div class="step-title">Busquem \(z^*\) a la taula per a 0,975</div>
+          <p>Consultem la taula de la normal estàndard buscant la probabilitat acumulada 0,975. El valor que la proporciona és:</p>
+          \[P(Z {<} z^*) = 0{,}975 \;\Rightarrow\; z^* = 1{,}96\]
+          <p>Notar que <strong>no busquem 0,95 directament a la taula</strong> (que donaria \(z \approx 1{,}645\)), sinó 0,975, perquè la taula dona probabilitats acumulades des de \(-\infty\) i hem de deixar el 2,5% a la cua dreta.</p>
+        </div></div>
+        <div class="step"><span class="step-num">4</span><div class="step-body">
+          <div class="step-title">Calculem \(d\)</div>
+          \[d = z^* \cdot \sigma = 1{,}96 \cdot 10 = 19{,}6 \text{ g}\]
+        </div></div>
+        <div class="result-box">\(d = 19{,}6 \text{ g}\)</div>
+        <div class="note-box">El 95% dels pots pesen entre \(400 \pm 19{,}6\) g, és a dir, entre <strong>380,4 i 419,6 g</strong>. La clau: amb un interval simètric del <em>c</em>%, la taula s'ha de consultar per a \(\tfrac{1+c/100}{2}\), és a dir, per a \(0{,}975\) quan \(c=95\%\).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- N6 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">N6</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema N6 — Notes d'accés a curs professional</div>
+        <div class="problem-statement">
+          <p>Les notes segueixen \(N(6{,}2;\, 1{,}5)\) punts.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>\(P(X > 8)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>\(P(5 < X < 8)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>Percentil 80.</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>Percentatge que accedeix amb nota \(\ge 5\). Comenta.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) \(P(X > 8)\)</div>
+        <div class="formula-box">\[Z=\frac{8-6{,}2}{1{,}5}=\frac{1{,}8}{1{,}5}=1{,}2\]</div>
+        <div class="formula-box">\[P(X>8)=1-P(Z<1{,}2)=1-0{,}8849\]</div>
+        <div class="result-box">\(P(X>8) \approx 0{,}1151 \Rightarrow 11{,}5\%\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(5 < X < 8)\)</div>
+        <div class="formula-box">\[Z_1=\frac{5-6{,}2}{1{,}5}=-0{,}8 \qquad Z_2=\frac{8-6{,}2}{1{,}5}=1{,}2\]</div>
+        <div class="formula-box">\[P=P(Z<1{,}2)-P(Z<-0{,}8)=0{,}8849-(1-0{,}7881)\]</div>
+        <div class="result-box">\(P(5 < X < 8) \approx 0{,}8849 - 0{,}2119 = 0{,}6731\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) Percentil 80 (\(z^*=0{,}8416\))</div>
+        <div class="formula-box">\[x=6{,}2+0{,}8416\cdot 1{,}5=6{,}2+1{,}2624\]</div>
+        <div class="result-box">\(P_{80} \approx 7{,}46 \text{ punts}\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) \(P(X \ge 5)\)</div>
+        <div class="formula-box">\[Z=\frac{5-6{,}2}{1{,}5}=-0{,}8\]</div>
+        <div class="formula-box">\[P(X \ge 5)=P(Z \ge -0{,}8)=P(Z<0{,}8)\approx 0{,}7881\]</div>
+        <div class="result-box">\(\approx 78{,}81\%\) dels candidats accedeix al curs.</div>
+        <div class="note-box">Comentari: prop del 79% supera el llindar d'accés de 5 punts. Això indica que el criteri és assequible per a la majoria dels candidats.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- N7 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">N7</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema N7 — Consum d'aigua</div>
+        <div class="problem-statement">
+          <p>El consum diari segueix \(N(180;\, 30)\) litres.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>\(P(150 < X < 210)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>\(P(X > 240)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>Percentatge de llars amb bonificació (menys de 130 l/dia).</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>Consum 'molt alt': a partir de quants litres (5% superior)?</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) \(P(150 < X < 210)\) — règla \(\mu \pm \sigma\)</div>
+        <div class="formula-box">\[Z_1=\frac{150-180}{30}=-1 \qquad Z_2=\frac{210-180}{30}=1\]</div>
+        <div class="result-box">\(P(-1{<}Z{<}1)=2\cdot 0{,}8413-1 \approx 0{,}6827\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(X > 240)\)</div>
+        <div class="formula-box">\[Z=\frac{240-180}{30}=2\]</div>
+        <div class="formula-box">\[P(X>240)=1-P(Z<2)=1-0{,}9772\]</div>
+        <div class="result-box">\(P(X>240) \approx 0{,}0228 \Rightarrow 2{,}28\%\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(P(X < 130)\)</div>
+        <div class="formula-box">\[Z=\frac{130-180}{30}=-1{,}667\]</div>
+        <div class="formula-box">\[P(X<130)=P(Z<-1{,}667)=1-P(Z<1{,}667)\approx 1-0{,}9522\]</div>
+        <div class="result-box">\(\approx 0{,}0478 \Rightarrow \mathbf{4{,}78\%}\) de llars es beneficien de la bonificació.</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) Percentil 95 (\(z^*=1{,}6449\))</div>
+        <div class="formula-box">\[x=180+1{,}6449\cdot 30=180+49{,}35\]</div>
+        <div class="result-box">\(x \approx 229{,}35 \text{ litres/dia}\)</div>
+        <div class="note-box">Es considera consum molt alt a partir d'aproximadament <strong>229 litres diaris</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- N8 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">N8</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema N8 — Durada dels pneumàtics</div>
+        <div class="problem-statement">
+          <p>La durada segueix \(N(50\,000;\, 5\,000)\) km.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>\(P(45\,000 < X < 57\,500)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>Garantia fins a 38.000 km: percentatge en garantia.</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>Fins a quants km ampliar per cobrir el 99% dels casos.</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>4 pneumàtics nous: probabilitat que tots durin \(> 45\,000\) km.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) \(P(45\,000 < X < 57\,500)\)</div>
+        <div class="formula-box">\[Z_1=\frac{45000-50000}{5000}=-1 \qquad Z_2=\frac{57500-50000}{5000}=1{,}5\]</div>
+        <div class="formula-box">\[P=P(Z<1{,}5)-P(Z<-1)=0{,}9332-0{,}1587\]</div>
+        <div class="result-box">\(P(45\,000 < X < 57\,500) \approx 0{,}7745\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(X < 38\,000)\)</div>
+        <div class="formula-box">\[Z=\frac{38000-50000}{5000}=-2{,}4\]</div>
+        <div class="formula-box">\[P(X<38000)=1-P(Z<2{,}4)=1-0{,}9918\]</div>
+        <div class="result-box">\(P(X<38\,000) \approx 0{,}0082 \Rightarrow \mathbf{0{,}82\%}\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) Percentil 99 (\(z^*=2{,}3263\))</div>
+        <div class="formula-box">\[x=50000+2{,}3263\cdot 5000=50000+11631{,}5\]</div>
+        <div class="result-box">\(x \approx 61\,632 \text{ km}\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) 4 pneumàtics independents, tots \(> 45\,000\) km</div>
+        <div class="formula-box">\[p=P(X>45000)=P(Z>-1)=P(Z<1)\approx 0{,}8413\]</div>
+        <div class="formula-box">\[P(\text{tots 4})=p^4=(0{,}8413)^4\]</div>
+        <div class="result-box">\(P(\text{tots 4}) \approx 0{,}5011\)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- N9 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">N9</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema N9 — Resolució de sol·licituds</div>
+        <div class="problem-statement">
+          <p>El temps de resolució segueix \(N(8;\, 2)\) dies.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>\(P(X < 5)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>\(P(6 < X < 11)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>'Resolució ràpida' (\({<}6\) dies): en 800 sol·licituds, quantes esperades?</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>Termini legal per al 98% de les sol·licituds.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) \(P(X < 5)\)</div>
+        <div class="formula-box">\[Z=\frac{5-8}{2}=-1{,}5 \quad \Rightarrow \quad P(Z<-1{,}5)=1-0{,}9332\]</div>
+        <div class="result-box">\(P(X<5) \approx 0{,}0668\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(6 < X < 11)\)</div>
+        <div class="formula-box">\[Z_1=\frac{6-8}{2}=-1 \qquad Z_2=\frac{11-8}{2}=1{,}5\]</div>
+        <div class="formula-box">\[P=P(Z<1{,}5)-P(Z<-1)=0{,}9332-0{,}1587\]</div>
+        <div class="result-box">\(P(6 < X < 11) \approx 0{,}7745\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) Sol·licituds ràpides en 800</div>
+        <div class="formula-box">\[P(X<6)=P\!\left(Z<\frac{6-8}{2}\right)=P(Z<-1)\approx 0{,}1587\]</div>
+        <div class="formula-box">\[800 \cdot 0{,}1587 \approx \mathbf{127 \text{ sol·licituds}}\]</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) Termini al 98% (\(z^*=2{,}0537\))</div>
+        <div class="formula-box">\[x=8+2{,}0537\cdot 2=8+4{,}107\]</div>
+        <div class="result-box">\(x \approx 12{,}11 \text{ dies}\)</div>
+        <div class="note-box">L'administració ha d'establir un termini legal de <strong>12,11 dies</strong> per garantir que el 98% de les sol·licituds es resolen a temps.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- N10 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">N10</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema N10 — Test d'aptitud numèrica</div>
+        <div class="problem-statement">
+          <p>La puntuació segueix \(N(95;\, 18)\) punts.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>\(P(77 < X < 113)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>\(P(X > 128)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>Percentil 75 (accés a entrevista).</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>De 5 candidats, probabilitat que exactament 1 superi 113 punts.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) \(P(77 < X < 113)\)</div>
+        <div class="formula-box">\[Z_1=\frac{77-95}{18}=-1 \qquad Z_2=\frac{113-95}{18}=1\]</div>
+        <div class="result-box">\(P(-1{<}Z{<}1)=2\cdot 0{,}8413-1 \approx 0{,}6827\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(X > 128)\)</div>
+        <div class="formula-box">\[Z=\frac{128-95}{18}=\frac{33}{18}=1{,}833\]</div>
+        <div class="formula-box">\[P(X>128)=1-P(Z<1{,}833)\approx 1-0{,}9666\]</div>
+        <div class="result-box">\(P(X>128) \approx 0{,}0334\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) Percentil 75 (\(z^*=0{,}6745\))</div>
+        <div class="formula-box">\[x=95+0{,}6745\cdot 18=95+12{,}14\]</div>
+        <div class="result-box">\(P_{75} \approx 107{,}14 \text{ punts}\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) Model binomial sobre la normal</div>
+        <div class="step"><span class="step-num">1</span><div class="step-body">
+          <div class="step-title">Calcula la probabilitat unitària</div>
+          <div class="formula-box">\[p=P(X>113)=P\!\left(Z>\frac{113-95}{18}\right)=P(Z>1)\approx 0{,}1587\]</div>
+        </div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-body">
+          <div class="step-title">Aplica el model binomial \(Y \sim B(5;\,0{,}1587)\)</div>
+          <div class="formula-box">\[P(Y=1)=\binom{5}{1}(0{,}1587)^1(0{,}8413)^4=5\cdot 0{,}1587\cdot 0{,}5010\]</div>
+        </div></div>
+        <div class="result-box">\(P(Y=1) \approx 0{,}3975\)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════ BLOC 3: APROXIMACIÓ ════════════ -->
+<section id="bloc3" class="bloc-b3">
+  <div class="bloc-header">
+    <div class="bloc-icon">A</div>
+    <div>
+      <div class="bloc-title">Bloc 3 — Aproximació Binomial → Normal</div>
+      <div class="bloc-desc">Condicions \(np \ge 5\) i \(nq \ge 5\) · Paràmetres \(\mu = np\), \(\sigma = \sqrt{npq}\)</div>
+    </div>
+  </div>
+
+
+  <!-- A1 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">A1</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema A1 — Eleccions al parlament</div>
+        <div class="problem-statement">
+          <p>El <strong>42%</strong> dels electors d'un municipi votarà un determinat partit. Mostra de <strong>160 electors</strong>.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>Comprova les condicions d'aproximació i calcula \(\mu\) i \(\sigma\).</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>\(P(60 \le X \le 75)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>\(P(X > 80)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>\(P(\text{menys del 37\% voten el partit})\).</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) Condicions i paràmetres</div>
+        <div class="step"><span class="step-num">1</span><div class="step-body">
+          <div class="step-title">Variable binomial</div>
+          <div class="formula-box">\[X \sim B(160;\; 0{,}42)\]</div>
+        </div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-body">
+          <div class="step-title">Comprova \(np \ge 5\) i \(nq \ge 5\)</div>
+          <div class="formula-box">\[np = 160 \cdot 0{,}42 = 67{,}2 \ge 5 \checkmark \qquad nq = 160 \cdot 0{,}58 = 92{,}8 \ge 5 \checkmark\]</div>
+        </div></div>
+        <div class="step"><span class="step-num">3</span><div class="step-body">
+          <div class="step-title">Paràmetres de la normal aproximada</div>
+          <div class="formula-box">\[\mu = 67{,}2 \qquad \sigma = \sqrt{160 \cdot 0{,}42 \cdot 0{,}58} = \sqrt{38{,}976} \approx 6{,}2431\]</div>
+        </div></div>
+        <div class="result-box">\(X \approx N(67{,}2;\; 6{,}2431)\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(60 \le X \le 75)\)</div>
+        <div class="formula-box">\[Z_1=\frac{60-67{,}2}{6{,}2431}\approx -1{,}153 \qquad Z_2=\frac{75-67{,}2}{6{,}2431}\approx 1{,}249\]</div>
+        <div class="formula-box">\[P=P(Z<1{,}249)-P(Z<-1{,}153)\approx 0{,}8942-0{,}1244\]</div>
+        <div class="result-box">\(P(60 \le X \le 75) \approx 0{,}7698\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(P(X > 80)\)</div>
+        <div class="formula-box">\[Z=\frac{80-67{,}2}{6{,}2431}\approx 2{,}050\]</div>
+        <div class="formula-box">\[P(X>80)=1-P(Z<2{,}050)\approx 1-0{,}9798\]</div>
+        <div class="result-box">\(P(X>80) \approx 0{,}0202\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) Menys del 37% de 160 = \(X \le 59\)</div>
+        <div class="formula-box">\[\text{37\% de 160} = 59{,}2 \Rightarrow X \le 59\]</div>
+        <div class="formula-box">\[Z=\frac{59-67{,}2}{6{,}2431}\approx -1{,}313\]</div>
+        <div class="result-box">\(P(\text{menys del 37\%}) \approx P(Z \le -1{,}313) \approx 0{,}0945\)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- A2 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">A2</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema A2 — Plataforma de venda en línia</div>
+        <div class="problem-statement">
+          <p>El <strong>22%</strong> dels visitants compren el producte. Un dia rep <strong>250 visites</strong>.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>Comprova condicions i calcula \(\mu\) i \(\sigma\).</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>\(P(45 \le X \le 65)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>\(P(X < 48)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>Troba \(k\) tal que \(P(X > k) = 0{,}90\).</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) Condicions i paràmetres</div>
+        <div class="formula-box">\[np=250\cdot0{,}22=55 \ge 5 \checkmark \qquad nq=250\cdot0{,}78=195 \ge 5 \checkmark\]</div>
+        <div class="formula-box">\[\mu=55 \qquad \sigma=\sqrt{250\cdot0{,}22\cdot0{,}78}=\sqrt{42{,}9}\approx 6{,}5498\]</div>
+        <div class="result-box">\(X \approx N(55;\; 6{,}5498)\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(45 \le X \le 65)\)</div>
+        <div class="formula-box">\[Z_1=\frac{45-55}{6{,}5498}\approx -1{,}527 \qquad Z_2=\frac{65-55}{6{,}5498}\approx 1{,}527\]</div>
+        <div class="formula-box">\[P=2\cdot P(Z<1{,}527)-1\approx 2\cdot0{,}9366-1\]</div>
+        <div class="result-box">\(P(45 \le X \le 65) \approx 0{,}8732\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(P(X < 48)\)</div>
+        <div class="formula-box">\[Z=\frac{48-55}{6{,}5498}\approx -1{,}069\]</div>
+        <div class="result-box">\(P(X<48) \approx P(Z \le -1{,}069) \approx 0{,}1425\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) Troba \(k\) tal que \(P(X>k)=0{,}90\)</div>
+        <div class="step"><span class="step-num">1</span><div class="step-body">
+          <p>\(P(X>k)=0{,}90 \Rightarrow P(X \le k)=0{,}10 \Rightarrow z^* = -1{,}2816\)</p>
+        </div></div>
+        <div class="formula-box">\[k = \mu + z^* \cdot \sigma = 55 + (-1{,}2816)\cdot6{,}5498 \approx 46{,}61\]</div>
+        <div class="result-box">\(k \approx 47 \text{ compradors}\)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- A3 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">A3</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema A3 — Reclamacions de transport</div>
+        <div class="problem-statement">
+          <p>El <strong>8%</strong> de les comandes acaben en reclamació. En un mes es processen <strong>180 comandes</strong>.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>Comprova condicions i calcula paràmetres.</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>\(P(10 \le X \le 20)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>\(P(X > 18)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>\(P(X \le 25)\) (el departament pot gestionar fins 25 reclamacions).</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) Condicions i paràmetres</div>
+        <div class="formula-box">\[np=180\cdot0{,}08=14{,}4 \ge 5 \checkmark \qquad nq=180\cdot0{,}92=165{,}6 \ge 5 \checkmark\]</div>
+        <div class="formula-box">\[\mu=14{,}4 \qquad \sigma=\sqrt{180\cdot0{,}08\cdot0{,}92}=\sqrt{13{,}248}\approx 3{,}6398\]</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(10 \le X \le 20)\)</div>
+        <div class="formula-box">\[Z_1=\frac{10-14{,}4}{3{,}6398}\approx -1{,}209 \qquad Z_2=\frac{20-14{,}4}{3{,}6398}\approx 1{,}538\]</div>
+        <div class="result-box">\(P \approx P(Z<1{,}538)-P(Z<-1{,}209) \approx 0{,}9380-0{,}1132 = 0{,}8248\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(P(X > 18)\)</div>
+        <div class="formula-box">\[Z=\frac{18-14{,}4}{3{,}6398}\approx 0{,}989\]</div>
+        <div class="result-box">\(P(X>18) \approx 1-P(Z<0{,}989) \approx 0{,}1612\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) \(P(X \le 25)\)</div>
+        <div class="formula-box">\[Z=\frac{25-14{,}4}{3{,}6398}\approx 2{,}912\]</div>
+        <div class="result-box">\(P(X \le 25) \approx P(Z \le 2{,}912) \approx 0{,}9982\)</div>
+        <div class="note-box">Gairebé és segur (99,82%) que el mes analitzat no necessiti recursos addicionals.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- A4 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">A4</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema A4 — Aplicació mòbil de fitness</div>
+        <div class="problem-statement">
+          <p>El <strong>68%</strong> dels usuaris han estat actius el darrer mes. Mostra de <strong>200 usuaris</strong>.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>Verifica les condicions i calcula \(\mu\) i \(\sigma\).</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>\(P(125 \le X \le 145)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>\(P(X < 120)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>Si el percentatge real fos 60%, com canviarien \(\mu\) i \(\sigma\)? La probabilitat de b) seria major o menor?</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) Condicions i paràmetres</div>
+        <div class="formula-box">\[np=200\cdot0{,}68=136 \ge 5 \checkmark \qquad nq=200\cdot0{,}32=64 \ge 5 \checkmark\]</div>
+        <div class="formula-box">\[\mu=136 \qquad \sigma=\sqrt{200\cdot0{,}68\cdot0{,}32}=\sqrt{43{,}52}\approx 6{,}5970\]</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(125 \le X \le 145)\)</div>
+        <div class="formula-box">\[Z_1=\frac{125-136}{6{,}5970}\approx -1{,}667 \qquad Z_2=\frac{145-136}{6{,}5970}\approx 1{,}364\]</div>
+        <div class="result-box">\(P \approx 0{,}9138-0{,}0478 = 0{,}8660\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(P(X < 120)\)</div>
+        <div class="formula-box">\[Z=\frac{120-136}{6{,}5970}\approx -2{,}425\]</div>
+        <div class="result-box">\(P(X<120) \approx P(Z \le -2{,}425) \approx 0{,}0077\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) Anàlisi amb \(p=0{,}60\)</div>
+        <div class="formula-box">\[\mu'=200\cdot0{,}60=120 \qquad \sigma'=\sqrt{200\cdot0{,}6\cdot0{,}4}=\sqrt{48}\approx6{,}9282\]</div>
+        <div class="note-box"><strong>La probabilitat seria molt menor.</strong> Amb \(\mu'=120\), l'interval \([125,145]\) queda desplaçat a la dreta de la nova mitjana, de manera que la massa de probabilitat en aquest interval és molt inferior (al voltant del 23% en lloc del 87%).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- A5 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">A5</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema A5 — Devolucions en línia</div>
+        <div class="problem-statement">
+          <p>Taxa de devolucions del <strong>14%</strong>. En un mes es venen <strong>300 articles</strong>.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>Condicions i paràmetres.</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>\(P(35 \le X \le 50)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>\(P(X < 30)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>\(P(X \le 55)\) (gestió sense cost addicional).</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) Condicions i paràmetres</div>
+        <div class="formula-box">\[np=300\cdot0{,}14=42 \ge 5 \checkmark \qquad nq=300\cdot0{,}86=258 \ge 5 \checkmark\]</div>
+        <div class="formula-box">\[\mu=42 \qquad \sigma=\sqrt{300\cdot0{,}14\cdot0{,}86}=\sqrt{36{,}12}\approx 6{,}0100\]</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(35 \le X \le 50)\)</div>
+        <div class="formula-box">\[Z_1=\frac{35-42}{6{,}0100}\approx -1{,}165 \qquad Z_2=\frac{50-42}{6{,}0100}\approx 1{,}331\]</div>
+        <div class="result-box">\(P \approx 0{,}9084-0{,}1220 = 0{,}7864\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(P(X < 30)\)</div>
+        <div class="formula-box">\[Z=\frac{30-42}{6{,}0100}\approx -1{,}996\]</div>
+        <div class="result-box">\(P(X<30) \approx P(Z \le -1{,}996) \approx 0{,}0230\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) \(P(X \le 55)\)</div>
+        <div class="formula-box">\[Z=\frac{55-42}{6{,}0100}\approx 2{,}163\]</div>
+        <div class="result-box">\(P(X \le 55) \approx P(Z \le 2{,}163) \approx 0{,}9848\)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- A6 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">A6</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema A6 — Preferència de marca de cafè</div>
+        <div class="problem-statement">
+          <p>El <strong>52%</strong> prefereix la marca X. Nova enquesta a <strong>350 persones</strong>.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>Condicions i paràmetres.</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>\(P(170 \le X \le 195)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>\(P(X < 175)\) — "menys de la meitat".</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>Si s'obtenen 160 que prefereixen la marca X, és un resultat sorprenent?</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) Condicions i paràmetres</div>
+        <div class="formula-box">\[np=350\cdot0{,}52=182 \ge 5 \checkmark \qquad nq=350\cdot0{,}48=168 \ge 5 \checkmark\]</div>
+        <div class="formula-box">\[\mu=182 \qquad \sigma=\sqrt{350\cdot0{,}52\cdot0{,}48}=\sqrt{87{,}36}\approx 9{,}3467\]</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(170 \le X \le 195)\)</div>
+        <div class="formula-box">\[Z_1=\frac{170-182}{9{,}3467}\approx -1{,}284 \qquad Z_2=\frac{195-182}{9{,}3467}\approx 1{,}391\]</div>
+        <div class="result-box">\(P \approx 0{,}9178-0{,}0995 = 0{,}8183\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) "Menys de la meitat" = \(X \le 174\)</div>
+        <div class="formula-box">\[Z=\frac{175-182}{9{,}3467}\approx -0{,}749\]</div>
+        <div class="result-box">\(P(X < 175) \approx P(Z \le -0{,}749) \approx 0{,}2270\)</div>
+        <div class="note-box">Comentari: hi ha un 22,7% de probabilitat que, tot i que el 52% prefereix la marca X, en una mostra de 350 hi hagi menys de la meitat que la prefereixin. No és improbable.</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) \(P(X \le 160)\) — és sorprenent?</div>
+        <div class="formula-box">\[Z=\frac{160-182}{9{,}3467}\approx -2{,}354\]</div>
+        <div class="formula-box">\[P(X \le 160) \approx P(Z \le -2{,}354) \approx 0{,}0093\]</div>
+        <div class="result-box">Probabilitat ≈ 0,93% → <strong>Sí, és un resultat bastant sorprenent.</strong></div>
+        <div class="note-box">Obtenir tan sols 160 persones (o menys) que prefereixen la marca X en una mostra de 350 quan la probabilitat real és 0,52 té una probabilitat d'un 0,93%, cosa que és estadísticament molt poc probable.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════ BLOC 4: MIXTOS ════════════ -->
+<section id="bloc4" class="bloc-b4">
+  <div class="bloc-header">
+    <div class="bloc-icon">M</div>
+    <div>
+      <div class="bloc-title">Bloc 4 — Problemes Mixtos</div>
+      <div class="bloc-desc">Combinen Normal + Binomial + Aproximació en el mateix problema</div>
+    </div>
+  </div>
+
+  <!-- M1 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">M1</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema M1 — Pots de mel</div>
+        <div class="problem-statement">
+          <p>Pes dels pots: \(N(500;\,18)\) g. El <strong>10%</strong> té defectes de tancament.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>\(P(473 < X < 527)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>Caixes de 6 pots: \(P(\text{com a màxim 1 amb defecte})\).</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>En un lot de 200 pots, \(P(12 \le X_{\text{def}} \le 25)\) per aproximació normal.</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>Pes mínim garantit perquè el 95% dels pots el superin.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) \(P(473 < X < 527)\) — Normal</div>
+        <div class="formula-box">\[Z_1=\frac{473-500}{18}=-1{,}5 \qquad Z_2=\frac{527-500}{18}=1{,}5\]</div>
+        <div class="result-box">\(P(-1{,}5{<}Z{<}1{,}5)=2\cdot0{,}9332-1\approx 0{,}8664\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(Y \le 1)\) — Binomial \(Y \sim B(6;\,0{,}10)\)</div>
+        <div class="formula-box">\[P(Y=0)=(0{,}9)^6=0{,}5314 \qquad P(Y=1)=6\cdot0{,}1\cdot(0{,}9)^5=0{,}3543\]</div>
+        <div class="result-box">\(P(Y \le 1)=0{,}5314+0{,}3543\approx 0{,}8857\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(P(12 \le X \le 25)\) — Aproximació Normal</div>
+        <div class="step"><span class="step-num">1</span><div class="step-body">
+          <div class="step-title">Condicions i paràmetres (\(X \sim B(200;\,0{,}10)\))</div>
+          <div class="formula-box">\[np=20 \ge 5 \checkmark \quad nq=180 \ge 5 \checkmark \qquad \mu=20,\; \sigma=\sqrt{200\cdot0{,}1\cdot0{,}9}=\sqrt{18}\approx4{,}2426\]</div>
+        </div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-body">
+          <div class="step-title">Tipifica</div>
+          <div class="formula-box">\[Z_1=\frac{12-20}{4{,}2426}\approx-1{,}886 \qquad Z_2=\frac{25-20}{4{,}2426}\approx1{,}179\]</div>
+        </div></div>
+        <div class="result-box">\(P(12 \le X \le 25)\approx P(Z<1{,}179)-P(Z<-1{,}886)\approx 0{,}8808-0{,}0297=0{,}8511\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) Pes mínim garantit (percentil 5)</div>
+        <div class="step"><span class="step-num">1</span><div class="step-body">
+          <p>Volem \(P(X > x) = 0{,}95 \Rightarrow P(X < x) = 0{,}05 \Rightarrow z^* = -1{,}6449\)</p>
+        </div></div>
+        <div class="formula-box">\[x = 500 + (-1{,}6449)\cdot 18 = 500 - 29{,}61\]</div>
+        <div class="result-box">\(x \approx 470{,}39 \text{ g}\)</div>
+        <div class="note-box">L'etiqueta hauria d'indicar un pes mínim garantit de <strong>470,4 g</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- M2 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">M2</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema M2 — Centre de salut</div>
+        <div class="problem-statement">
+          <p>Espera: \(N(35;\,10)\) min. El <strong>22%</strong> dels pacients reben derivació.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>\(P(X < 20 \text{ o } X > 50)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>En 12 pacients, \(P(\text{exactament 2 amb espera excessiva})\) si 'excessiva' = \(> 55\) min.</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>En 400 pacients, \(P(75 \le \text{derivats} \le 100)\) per aproximació.</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>Percentil 95 del temps d'espera.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) \(P(X < 20\text{ o }X > 50)\)</div>
+        <div class="formula-box">\[P(Z<\tfrac{20-35}{10})+P(Z>\tfrac{50-35}{10})=P(Z<-1{,}5)+P(Z>1{,}5)=2(1-0{,}9332)\]</div>
+        <div class="result-box">\(\approx 0{,}1336\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) Espera excessiva: \(P(X>55)\)</div>
+        <div class="formula-box">\[p=P(X>55)=P(Z>\tfrac{55-35}{10})=P(Z>2)=1-0{,}9772=0{,}0228\]</div>
+        <div class="step"><span class="step-num">→</span><div class="step-body">
+          <p>Binomial \(Y \sim B(12;\,0{,}0228)\):</p>
+          <div class="formula-box">\[P(Y=2)=\binom{12}{2}(0{,}0228)^2(0{,}9772)^{10}=66\cdot0{,}00052\cdot0{,}7956\]</div>
+        </div></div>
+        <div class="result-box">\(P(Y=2)\approx 0{,}0271\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) 400 pacients derivats, \(p=0{,}22\) — Aproximació Normal</div>
+        <div class="formula-box">\[\mu=400\cdot0{,}22=88 \qquad \sigma=\sqrt{400\cdot0{,}22\cdot0{,}78}=\sqrt{68{,}64}\approx8{,}2849\]</div>
+        <div class="formula-box">\[Z_1=\frac{75-88}{8{,}2849}\approx-1{,}569 \qquad Z_2=\frac{100-88}{8{,}2849}\approx1{,}448\]</div>
+        <div class="result-box">\(P(75 \le X \le 100)\approx 0{,}9261-0{,}0584=0{,}8677\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) Percentil 95 (\(z^*=1{,}6449\))</div>
+        <div class="formula-box">\[x=35+1{,}6449\cdot10=35+16{,}449\]</div>
+        <div class="result-box">\(x \approx 51{,}45 \text{ minuts}\)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- M3 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">M3</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema M3 — Taronges</div>
+        <div class="problem-statement">
+          <p>Pes de les taronges: \(N(220;\,25)\) g. El <strong>12%</strong> té defecte exterior.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>\(P(195 < X < 258)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>\(P(X < 175)\). Interpreta.</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>En 10 taronges, \(P(\text{exactament 2 amb defecte})\).</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>En un camió de 300 taronges, \(P(28 \le \text{defectuoses} \le 45)\).</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) \(P(195 < X < 258)\)</div>
+        <div class="formula-box">\[Z_1=\frac{195-220}{25}=-1 \qquad Z_2=\frac{258-220}{25}=1{,}52\]</div>
+        <div class="formula-box">\[P=P(Z<1{,}52)-P(Z<-1)=0{,}9357-0{,}1587\]</div>
+        <div class="result-box">\(P(195<X<258)\approx 0{,}7771\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(X < 175)\)</div>
+        <div class="formula-box">\[Z=\frac{175-220}{25}=-1{,}8\]</div>
+        <div class="formula-box">\[P(X<175)=P(Z<-1{,}8)=1-0{,}9641\]</div>
+        <div class="result-box">\(P(X<175)\approx 0{,}0359\)</div>
+        <div class="note-box">Interpretació: només el 3,6% de les taronges pesen menys de 175 g. Pràcticament totes superen aquest pes mínim.</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(Y \sim B(10;\,0{,}12)\), \(P(Y=2)\)</div>
+        <div class="formula-box">\[P(Y=2)=\binom{10}{2}(0{,}12)^2(0{,}88)^8=45\cdot0{,}0144\cdot0{,}3596\]</div>
+        <div class="result-box">\(P(Y=2)\approx 0{,}2330\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) \(Z \sim B(300;\,0{,}12) \approx N(36;\,5{,}6285)\)</div>
+        <div class="formula-box">\[\mu=300\cdot0{,}12=36 \qquad \sigma=\sqrt{300\cdot0{,}12\cdot0{,}88}=\sqrt{31{,}68}\approx5{,}6285\]</div>
+        <div class="formula-box">\[Z_1=\frac{28-36}{5{,}6285}\approx-1{,}421 \qquad Z_2=\frac{45-36}{5{,}6285}\approx1{,}599\]</div>
+        <div class="result-box">\(P(28 \le X \le 45)\approx 0{,}9451-0{,}0776=0{,}8675\)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- M4 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">M4</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema M4 — Bateries de liti</div>
+        <div class="problem-statement">
+          <p>Vida útil: \(N(4;\,0{,}6)\) anys. El <strong>15%</strong> presenta problemes de calibratge el primer any.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>\(P(3{,}2 < X < 4{,}9)\).</span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>Garantia 2,8 anys: percentatge en garantia.</span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>En 8 bateries, \(P(\ge 2 \text{ amb problemes de calibratge})\).</span></div>
+          <div class="sub-item"><span class="sub-letter">d)</span><span>En 400 bateries, \(P(50 \le X \le 70)\) per aproximació.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) \(P(3{,}2 < X < 4{,}9)\)</div>
+        <div class="formula-box">\[Z_1=\frac{3{,}2-4}{0{,}6}=-1{,}333 \qquad Z_2=\frac{4{,}9-4}{0{,}6}=1{,}5\]</div>
+        <div class="formula-box">\[P=P(Z<1{,}5)-P(Z<-1{,}333)=0{,}9332-0{,}0912\]</div>
+        <div class="result-box">\(P(3{,}2<X<4{,}9)\approx 0{,}8420\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) \(P(X < 2{,}8)\)</div>
+        <div class="formula-box">\[Z=\frac{2{,}8-4}{0{,}6}=-2\]</div>
+        <div class="formula-box">\[P(X<2{,}8)=P(Z<-2)=1-0{,}9772\]</div>
+        <div class="result-box">\(P(X<2{,}8)\approx 0{,}0228 \Rightarrow \mathbf{2{,}28\%}\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) \(W \sim B(8;\,0{,}15)\), \(P(W \ge 2)\)</div>
+        <div class="formula-box">\[P(W \ge 2)=1-P(W \le 1)=1-[P(W=0)+P(W=1)]\]</div>
+        <div class="formula-box">\[P(W=0)=(0{,}85)^8\approx0{,}2725 \qquad P(W=1)=8\cdot0{,}15\cdot(0{,}85)^7\approx0{,}3847\]</div>
+        <div class="result-box">\(P(W \ge 2)=1-0{,}6572\approx 0{,}3428\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">d) \(X \sim B(400;\,0{,}15)\approx N(60;\,7{,}1414)\)</div>
+        <div class="formula-box">\[\mu=400\cdot0{,}15=60 \qquad \sigma=\sqrt{400\cdot0{,}15\cdot0{,}85}=\sqrt{51}\approx7{,}1414\]</div>
+        <div class="formula-box">\[Z_1=\frac{50-60}{7{,}1414}\approx-1{,}400 \qquad Z_2=\frac{70-60}{7{,}1414}\approx1{,}400\]</div>
+        <div class="formula-box">\[P=2\cdot P(Z<1{,}400)-1\approx 2\cdot0{,}9192-1\]</div>
+        <div class="result-box">\(P(50 \le X \le 70)\approx 0{,}8384\)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════ BLOC 5: INVERSA / PERCENTILS ════════════ -->
+<section id="bloc5" class="bloc-b5">
+  <div class="bloc-header">
+    <div class="bloc-icon">I</div>
+    <div>
+      <div class="bloc-title">Bloc 5 — Càlcul Invers: Trobar X donada una probabilitat</div>
+      <div class="bloc-desc">Percentils · Mètode: traducció → taula → desconversió \(x = \mu + z^* \cdot \sigma\)</div>
+    </div>
+  </div>
+
+  <div class="formula-box" style="margin-bottom:16px; background:#fff1f2; border-color:#fecaca;">
+    <strong>Mètode pas a pas per al càlcul invers:</strong><br>
+    \(\textbf{1.}\) Tradueix la condició a una probabilitat acumulada \(P(Z < z^*)\)<br>
+    \(\textbf{2.}\) Busca \(z^*\) a la taula \(\to\) recorda: si \(x < \mu\), aleshores \(z^* < 0\)<br>
+    \(\textbf{3.}\) Desconverteix: \(x = \mu + z^* \cdot \sigma\)<br>
+    \(\textbf{4.}\) Interpreta en el context
+  </div>
+
+  <!-- I1 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">I1</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema I1 — Velocitat de lectura i consum elèctric</div>
+        <div class="problem-statement">
+          <div class="sub-item"><span class="sub-letter">a)</span><span>Velocitat: \(N(180;\,20)\) par/min. Puntuació mínima per estar entre el 15% més ràpid. <em>Taula: \(P(Z{<}1{,}04)\approx0{,}85\)</em></span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>Consum: \(N(320;\,45)\) kWh. Per sota de quin consum es troba el 10% que menys consumeix. <em>Taula: \(P(Z{<}1{,}28)\approx0{,}90\)</em></span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) 15% més ràpid</div>
+        <div class="step"><span class="step-num">1</span><div class="step-body">
+          <div class="step-title">Traducció</div>
+          <div class="formula-box">\[P(X > x) = 0{,}15 \;\Rightarrow\; P(X < x) = 0{,}85\]</div>
+        </div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-body">
+          <div class="step-title">Valor \(z^*\) de la taula</div>
+          <p>Com que 0,85 > 0,5, el valor \(z^*\) és positiu: \(\;z^* \approx 1{,}04\)</p>
+        </div></div>
+        <div class="step"><span class="step-num">3</span><div class="step-body">
+          <div class="step-title">Desconverteix a paraules/minut</div>
+          <div class="formula-box">\[x = \mu + z^* \cdot \sigma = 180 + 1{,}04 \cdot 20 = 180 + 20{,}8\]</div>
+        </div></div>
+        <div class="result-box">\(x = 200{,}8 \text{ paraules/minut}\)</div>
+        <div class="note-box">Cal una puntuació mínima d'uns <strong>200,8 paraules/minut</strong> per estar entre el 15% més ràpid.</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) 10% que menys consumeix</div>
+        <div class="step"><span class="step-num">1</span><div class="step-body">
+          <div class="step-title">Traducció</div>
+          <div class="formula-box">\[P(X < x) = 0{,}10\]</div>
+          <p>Com que 0,10 &lt; 0,5, el valor \(x\) és <em>inferior a la mitjana</em> i \(z^*\) serà negatiu.</p>
+        </div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-body">
+          <div class="step-title">Valor \(z^*\)</div>
+          <p>\(P(Z < z^*) = 0{,}10 \Rightarrow P(Z < -z^*) = 0{,}90 \Rightarrow -z^* = 1{,}28 \Rightarrow z^* = -1{,}28\)</p>
+        </div></div>
+        <div class="step"><span class="step-num">3</span><div class="step-body">
+          <div class="step-title">Desconverteix a kWh</div>
+          <div class="formula-box">\[x = 320 + (-1{,}28) \cdot 45 = 320 - 57{,}6\]</div>
+        </div></div>
+        <div class="result-box">\(x = 262{,}4 \text{ kWh}\)</div>
+        <div class="note-box">Per sota de <strong>262,4 kWh</strong> es troba el 10% dels habitatges que menys consumeixen.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- I2 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">I2</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema I2 — Temperatures de juliol</div>
+        <div class="problem-statement">
+          <p>Temperatura màxima diària de juliol: \(N(32;\,4)\) °C.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>Temperatura del 5% dels dies més calorosos (percentil 95). <em>Taula: \(P(Z{<}1{,}645)\approx0{,}95\)</em></span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>'Dia de calor extrema' = percentil 90. Temperatura a partir de la qual. <em>Taula: \(P(Z{<}1{,}28)\approx0{,}90\)</em></span></div>
+          <div class="sub-item"><span class="sub-letter">c)</span><span>La meitat dels dies, la temperatura és superior a ___°C. Raona per què.</span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) Percentil 95 (\(z^*=1{,}645\))</div>
+        <div class="formula-box">\[P(X > x)=0{,}05 \;\Rightarrow\; P(X < x)=0{,}95 \;\Rightarrow\; z^*=1{,}645\]</div>
+        <div class="formula-box">\[x=32+1{,}645\cdot4=32+6{,}58\]</div>
+        <div class="result-box">\(x \approx 38{,}58\,°C\)</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) Percentil 90 (\(z^*=1{,}28\))</div>
+        <div class="formula-box">\[x=32+1{,}28\cdot4=32+5{,}12\]</div>
+        <div class="result-box">\(x \approx 37{,}12\,°C\)</div>
+        <div class="note-box">Es declara calor extrema a partir de <strong>37,12 °C</strong>.</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">c) Mediana = Mitjana</div>
+        <div class="result-box">La meitat dels dies la temperatura és superior a <strong>32 °C</strong>.</div>
+        <div class="note-box">Justificació: en una distribució normal, la distribució és <em>simètrica</em> respecte a la mitjana. Per tant, la <strong>mediana coincideix amb la mitjana</strong> (\(\mu = 32\,°C\)), i exactament el 50% de les observacions queden per sobre d'aquest valor.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- I3 -->
+  <div class="problem-card">
+    <div class="problem-top">
+      <span class="problem-badge">I3</span>
+      <div class="problem-content">
+        <div class="problem-title">Problema I3 — Notes de formació professional (beca)</div>
+        <div class="problem-statement">
+          <p>Notes: \(N(6{,}4;\,1{,}8)\). Només el <strong>25% amb millor nota</strong> obté beca.</p>
+          <div class="sub-item"><span class="sub-letter">a)</span><span>Nota mínima per obtenir la beca. <em>Taula: \(P(Z{<}0{,}674)\approx0{,}75\)</em></span></div>
+          <div class="sub-item"><span class="sub-letter">b)</span><span>Nota per sota de la qual es troba el 10% pitjor. Interpreta. <em>Taula: \(P(Z{<}1{,}28)\approx0{,}90\)</em></span></div>
+        </div>
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="toggleSolution(this)">
+      <span class="arrow">▼</span> Mostra la solució
+    </button>
+    <div class="solution">
+      <div class="sub-sol">
+        <div class="sub-sol-title">a) Nota mínima per a la beca (percentil 75)</div>
+        <div class="step"><span class="step-num">1</span><div class="step-body">
+          <div class="step-title">Traducció</div>
+          <div class="formula-box">\[P(X > x) = 0{,}25 \;\Rightarrow\; P(X < x) = 0{,}75\]</div>
+        </div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-body">
+          <div class="step-title">Valor \(z^*\) de la taula</div>
+          <p>\(P(Z < z^*) = 0{,}75 \;\Rightarrow\; z^* = 0{,}674\)</p>
+        </div></div>
+        <div class="step"><span class="step-num">3</span><div class="step-body">
+          <div class="step-title">Desconverteix</div>
+          <div class="formula-box">\[x = 6{,}4 + 0{,}674 \cdot 1{,}8 = 6{,}4 + 1{,}213\]</div>
+        </div></div>
+        <div class="result-box">\(x \approx 7{,}61 \text{ punts}\)</div>
+        <div class="note-box">La nota mínima per obtenir la beca és d'aproximadament <strong>7,61 punts</strong>.</div>
+      </div>
+      <div class="sub-sol">
+        <div class="sub-sol-title">b) 10% pitjor (percentil 10)</div>
+        <div class="step"><span class="step-num">1</span><div class="step-body">
+          <div class="step-title">Traducció</div>
+          <div class="formula-box">\[P(X < x) = 0{,}10 \;\Rightarrow\; z^* = -1{,}28 \;\;(\text{negatiu, perquè } x < \mu)\]</div>
+        </div></div>
+        <div class="step"><span class="step-num">2</span><div class="step-body">
+          <div class="step-title">Desconverteix</div>
+          <div class="formula-box">\[x = 6{,}4 + (-1{,}28) \cdot 1{,}8 = 6{,}4 - 2{,}304\]</div>
+        </div></div>
+        <div class="result-box">\(x \approx 4{,}10 \text{ punts}\)</div>
+        <div class="note-box">Interpretació en el context: per sota de <strong>4,10 punts</strong> es troba el 10% dels alumnes amb pitjors resultats. Aquests alumnes estan molt lluny del llindar de la beca (7,61), cosa que suggereix que hi ha un segment d'alumnes amb dificultats importants.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- end .main -->
+
+<footer>
+  Solucionari de Distribucions de Probabilitat · 2n Batxillerat Matemàtiques CCSS
+</footer>
+
+<script>
+function toggleSolution(btn) {
+  var sol = btn.nextElementSibling;
+  var isOpen = sol.classList.toggle('open');
+  btn.classList.toggle('open', isOpen);
+  btn.querySelector('.arrow').textContent = isOpen ? '▲' : '▼';
+  btn.childNodes[1].textContent = isOpen ? ' Amaga la solució' : ' Mostra la solució';
+  if (isOpen && !sol.dataset.typeset) {
+    sol.dataset.typeset = 'true';
+    if (window.MathJax && MathJax.typesetPromise) {
+      MathJax.typesetPromise([sol]);
+    }
+  }
+}
+function toggleSheet(header) {
+  var body = header.nextElementSibling;
+  var isOpen = body.classList.toggle('open');
+  header.querySelector('span').textContent = isOpen ? '▲ Plegar' : '▼ Desplegar';
+  if (isOpen && !body.dataset.typeset) {
+    body.dataset.typeset = 'true';
+    if (window.MathJax && MathJax.typesetPromise) {
+      MathJax.typesetPromise([body]);
+    }
+  }
+}
+</script>
+</body>
+</html>
